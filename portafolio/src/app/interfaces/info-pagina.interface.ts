@@ -7,5 +7,6 @@ export interface datosPagina {
     facebook?: string;
     instagram?: string;
     twitter?: string;
+    pinterest?: string;
     equipo_trabajo?: any[];
   }
