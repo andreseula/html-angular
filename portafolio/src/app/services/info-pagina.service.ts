@@ -29,7 +29,7 @@ export class InfoPaginaService {
         
         this.cargada=true;
         this.info = res;
-  
+        console.log(res);
       });
    }
 
