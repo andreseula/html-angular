@@ -8,8 +8,9 @@ import { Productos } from '../interfaces/productos.interfaces';
 export class ProductosService {
 
   cargando = true;
+  producto: Productos[] = [];
 
-  constructor( private http: HttpClient) { 
+  constructor( private http: HttpClient) {
 
     this.cargarProductos();
   }
@@ -20,9 +21,12 @@ export class ProductosService {
     .subscribe(( res: Productos[] ) => {
 
       console.log(res);
-
+      this.producto = res;
       this.cargando = false;
+      // setTimeout(() => {
+      //   this.cargando = false;
 
+      // }, 800);
     });
   }
 }
