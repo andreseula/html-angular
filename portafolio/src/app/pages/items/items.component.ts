@@ -10,6 +10,9 @@ import { prodDesc } from '../../interfaces/prod-desc.interface';
 })
 export class ItemsComponent implements OnInit {
 
+  producto: prodDesc;
+  id: string;
+
   constructor( private route: ActivatedRoute, 
                 public productoService:ProductosService) { }
 
@@ -23,8 +26,10 @@ export class ItemsComponent implements OnInit {
       this.productoService.getProducto(parametros['id'])
         .subscribe((producto: prodDesc) => {
 
-            console.log(producto);
-
+          this.producto = producto;
+          this.id = parametros['id'];
+          // console.log(producto);
+          
         });
 
     });
