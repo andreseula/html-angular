@@ -29,7 +29,7 @@ export class InfoPaginaService {
         
         this.cargada=true;
         this.info = res;
-        console.log(res);
+        // console.log(res);
       });
    }
 
@@ -39,7 +39,7 @@ export class InfoPaginaService {
       .subscribe ( (res: any[]) =>{
 
         this.equipo = res;
-        console.log(res);
+        // console.log(res);
          
       });
 
