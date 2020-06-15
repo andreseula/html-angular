@@ -1,12 +1,12 @@
 
-export interface datosPagina {
-    title?: string;
-    email?: string;
-    nombre?: string;
-    web_autor?: string;
-    facebook?: string;
-    instagram?: string;
-    twitter?: string;
-    pinterest?: string;
-    equipo_trabajo?: any[];
-  }
+export interface InfoPagina {
+  titulo?: string;
+  email?: string;
+  nombre_corto?: string;
+  pagina_autor?: string;
+  facebook?: string;
+  twitter?: string;
+  instagram?: string;
+  tublr?: string;
+  equipo_trabajo?: any[];
+}

@@ -7,10 +7,12 @@ import { InfoPaginaService } from '../../services/info-pagina.service';
   styleUrls: ['./footer.component.css']
 })
 export class FooterComponent implements OnInit {
-  year: number = new Date().getFullYear();
-  constructor(public _servicio:InfoPaginaService) { }
 
-  ngOnInit(): void {
+  anio: number = new Date().getFullYear();
+
+  constructor( public _servicio: InfoPaginaService ) { }
+
+  ngOnInit() {
   }
 
 }

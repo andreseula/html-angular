@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Productos } from '../interfaces/productos.interfaces';
-import { rejects } from 'assert';
+import { Producto } from '../interfaces/producto.interface';
+import { resolve } from '../../../node_modules/@types/q';
+
 
 @Injectable({
   providedIn: 'root'
@@ -9,77 +10,75 @@ import { rejects } from 'assert';
 export class ProductosService {
 
   cargando = true;
-  producto: Productos[] = [];
-  prodFiltrado: Productos[] = [];
+  productos: Producto[] = [];
+  productosFiltrado: Producto[] = [];
 
-  constructor( private http: HttpClient) {
+
+  constructor( private http: HttpClient ) {
 
     this.cargarProductos();
+
   }
 
-  private cargarProductos(){
 
-    return new Promise ((resolve, rejects) =>{
+  private cargarProductos() {
 
-      this.http.get('https://html-angular-54250.firebaseio.com/productos_idx.json')
-        .subscribe(( res: Productos[] ) => {
-  
-        console.log(res);
-        this.producto = res;
-        resolve();
-    
-        setTimeout(() => {
-          this.cargando = false;
-        }, 800);
-  
-      });
+    return new Promise(  ( resolve, reject ) => {
+
+      this.http.get('https://angular-html-25cf9.firebaseio.com/productos_idx.json')
+          .subscribe( (resp: Producto[]) => {
+            this.productos = resp;
+            this.cargando = false;
+            resolve();
+          });
+
     });
 
+  }
+
+  getProducto( id: string ) {
+
+    return this.http.get(`https://angular-html-25cf9.firebaseio.com/productos/${ id }.json`);
 
   }
 
-  getProducto (id: string){
+  buscarProducto( termino: string ) {
 
-    return this.http.get(`https://html-angular-54250.firebaseio.com/productos/${ id }.json`);
 
-  }
+    if ( this.productos.length === 0 ) {
+      // cargar productos
+      this.cargarProductos().then( () => {
+        // ejecutar después de tener los productos
+        // Aplicar filtro
+        this.filtrarProductos( termino );
+      });
 
-  buscarProducto ( termino: string){
-    
-    if( this.producto.length === 0){
-      //cargar productos
-      this.cargarProductos().then(()=>{
-        //EJECUTAR DESPUES DE TENER LOS PRODUCTOS APLICAR FILTRO
-        this.filtrarProductos(termino);
-      })
-    }else{
-
+    } else {
+      // aplicar el filtro
+      this.filtrarProductos( termino );
     }
 
-    // this.prodFiltrado = this.producto.filter( producto =>{
 
-    //   return true;
-
-    // });
-
-    // console.log( this.prodFiltrado);
   }
 
-  private filtrarProductos ( termino: string){
+  private filtrarProductos( termino: string ) {
 
-    // console.log(this.producto);
-    this.prodFiltrado = [];
+    // console.log(this.productos);
+    this.productosFiltrado = [];
 
     termino = termino.toLocaleLowerCase();
-    
-    this.producto.forEach(prod =>{
 
-      const mintitulo = prod.titulo.toLocaleLowerCase();
+    this.productos.forEach( prod => {
 
-      if(prod.categoria.indexOf(termino )>= 0 || mintitulo.indexOf (termino) >= 0){
-        this.prodFiltrado.push(prod);
+      const tituloLower = prod.titulo.toLocaleLowerCase();
+
+      if ( prod.categoria.indexOf( termino ) >= 0 || tituloLower.indexOf( termino ) >= 0  ) {
+        this.productosFiltrado.push( prod );
       }
+
     });
+
+
   }
 
 }
